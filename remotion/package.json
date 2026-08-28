@@ -1,0 +1,23 @@
+{
+  "name": "monas-cafe-remotion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Remotion terminal clips for the gh --attach demo",
+  "scripts": {
+    "studio": "remotion studio",
+    "render:tests": "remotion render PlaywrightRun out/01-playwright-tests.mp4",
+    "render:error": "remotion render AttachError out/02-attach-error.mp4",
+    "render:fixed": "remotion render AttachFixed out/03-attach-works.mp4",
+    "render:all": "npm run render:tests && npm run render:error && npm run render:fixed"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "remotion": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.6.0"
+  }
+}

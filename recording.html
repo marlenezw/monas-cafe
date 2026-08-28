@@ -3,30 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bug recording — Mona's Cafe</title>
+<title>Demo clips — Mona's Cafe</title>
 <link rel="icon" href="assets/img/mona.png">
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
+  .clip { margin-bottom: 46px; }
+  .clip-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
+  .clip-head .n {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .1em;
+    color: #fff; background: var(--coffee); border-radius: 6px; padding: 4px 9px;
+  }
+  .clip-head h3 { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
+  .clip-head p { color: var(--muted); font-size: .92rem; margin-left: auto; font-family: var(--mono); }
   .player {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 14px;
-    box-shadow: 0 18px 40px -28px rgba(44,33,26,.45);
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 16px; padding: 12px;
+    box-shadow: 0 18px 40px -30px rgba(44,33,26,.5);
   }
-  .player video { width: 100%; display: block; border-radius: 10px; background: var(--cream); }
-  .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-  .meta span {
-    font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
-    color: var(--muted); background: var(--cream);
-    border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px;
-  }
-  .files { margin-top: 22px; display: grid; gap: 10px; }
+  .player video { width: 100%; display: block; border-radius: 9px; background: var(--cream); }
+  .files { margin-top: 10px; display: grid; gap: 9px; }
   .files a {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 13px 16px; border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 15px; border: 1px solid var(--line); border-radius: 11px;
     background: var(--paper); text-decoration: none; color: var(--ink);
-    font-weight: 600; font-size: 14px;
+    font-weight: 600; font-size: 13.5px;
   }
   .files a:hover { border-color: var(--caramel); }
   .files a code { font-family: var(--mono); font-size: 11px; color: var(--muted); font-weight: 400; }
@@ -47,7 +47,7 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="menu.html">Menu</a></li>
-      <li><a href="recording.html" aria-current="page">Recording</a></li>
+      <li><a href="recording.html" aria-current="page">Clips</a></li>
     </ul>
   </div>
 </header>
@@ -55,28 +55,58 @@
 <main class="wrap">
   <section class="section" style="padding-top:40px">
     <div class="section-head">
-      <span class="kicker">Bug recording</span>
-      <h2>Menu prices render as $NaN</h2>
-      <p>Screen capture for the issue comment. Attach with <code>gh issue comment --attach</code>.</p>
+      <span class="kicker">Demo reel</span>
+      <h2>Show, don't describe</h2>
+      <p>Four clips for the <code>gh --attach</code> walkthrough. Steps 1–3 are Remotion, recreating commands that were really run.</p>
     </div>
 
-    <div class="player">
-      <video src="menu-bug.mp4" controls autoplay muted loop playsinline poster="menu-error.png"></video>
+    <div class="clip">
+      <div class="clip-head">
+        <span class="n">00</span>
+        <h3>The bug in the browser</h3>
+        <p>23.3s · Playwright capture</p>
+      </div>
+      <div class="player">
+        <video src="clips/00-site-walkthrough.mp4" controls muted loop playsinline poster="menu-error.png"></video>
+      </div>
     </div>
 
-    <div class="meta">
-      <span>23.3s</span>
-      <span>1280 × 800</span>
-      <span>MP4 · H.264 · 1.5 MB</span>
-      <span>WebM · VP8 · 2.0 MB</span>
-      <span>Limit: 10 MB free</span>
+    <div class="clip">
+      <div class="clip-head">
+        <span class="n">01</span>
+        <h3>Playwright catches it and screenshots it</h3>
+        <p>9.6s · Remotion</p>
+      </div>
+      <div class="player">
+        <video src="clips/01-playwright-tests.mp4" controls muted loop playsinline></video>
+      </div>
+    </div>
+
+    <div class="clip">
+      <div class="clip-head">
+        <span class="n">02</span>
+        <h3>The old way — unknown flag: --attach</h3>
+        <p>11.3s · Remotion</p>
+      </div>
+      <div class="player">
+        <video src="clips/02-attach-error.mp4" controls muted loop playsinline></video>
+      </div>
+    </div>
+
+    <div class="clip">
+      <div class="clip-head">
+        <span class="n">03</span>
+        <h3>gh 2.99 — the screenshot lands on the issue</h3>
+        <p>9.5s · Remotion</p>
+      </div>
+      <div class="player">
+        <video src="clips/03-attach-works.mp4" controls muted loop playsinline></video>
+      </div>
     </div>
 
     <div class="files">
-      <a href="menu-bug.mp4" download>Download MP4 <code>menu-bug.mp4</code></a>
-      <a href="menu-bug.webm" download>Download WebM <code>menu-bug.webm</code></a>
-      <a href="menu-error.png" download>Still — broken menu <code>menu-error.png</code></a>
-      <a href="menu-fixed.png" download>Still — fixed menu <code>menu-fixed.png</code></a>
+      <a href="clips/playwright-screenshot.png" download>Screenshot captured by the test <code>clips/playwright-screenshot.png</code></a>
+      <a href="https://github.com/marlenezw/monas-cafe/issues/1">The real issue, with the real attachment <code>marlenezw/monas-cafe#1</code></a>
     </div>
   </section>
 </main>
