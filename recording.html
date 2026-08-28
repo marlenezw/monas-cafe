@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bug recording — Mona's Cafe</title>
+<link rel="icon" href="assets/img/mona.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .player {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow: 0 18px 40px -28px rgba(44,33,26,.45);
+  }
+  .player video { width: 100%; display: block; border-radius: 10px; background: var(--cream); }
+  .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .meta span {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .04em;
+    color: var(--muted); background: var(--cream);
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px;
+  }
+  .files { margin-top: 22px; display: grid; gap: 10px; }
+  .files a {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 13px 16px; border: 1px solid var(--line); border-radius: 12px;
+    background: var(--paper); text-decoration: none; color: var(--ink);
+    font-weight: 600; font-size: 14px;
+  }
+  .files a:hover { border-color: var(--caramel); }
+  .files a code { font-family: var(--mono); font-size: 11px; color: var(--muted); font-weight: 400; }
+</style>
+</head>
+<body>
+
+<div class="awning"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </span>
+      <b>Mona's <span>Cafe</span></b>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="recording.html" aria-current="page">Recording</a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="section" style="padding-top:40px">
+    <div class="section-head">
+      <span class="kicker">Bug recording</span>
+      <h2>Menu prices render as $NaN</h2>
+      <p>Screen capture for the issue comment. Attach with <code>gh issue comment --attach</code>.</p>
+    </div>
+
+    <div class="player">
+      <video src="menu-bug.mp4" controls autoplay muted loop playsinline poster="menu-error.png"></video>
+    </div>
+
+    <div class="meta">
+      <span>23.3s</span>
+      <span>1280 × 800</span>
+      <span>MP4 · H.264 · 1.5 MB</span>
+      <span>WebM · VP8 · 2.0 MB</span>
+      <span>Limit: 10 MB free</span>
+    </div>
+
+    <div class="files">
+      <a href="menu-bug.mp4" download>Download MP4 <code>menu-bug.mp4</code></a>
+      <a href="menu-bug.webm" download>Download WebM <code>menu-bug.webm</code></a>
+      <a href="menu-error.png" download>Still — broken menu <code>menu-error.png</code></a>
+      <a href="menu-fixed.png" download>Still — fixed menu <code>menu-fixed.png</code></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p>© 2026 Mona's Cafe · 87 Octocat Lane</p>
+    <p class="hours">MON–FRI 7:00–18:00 · SAT–SUN 8:00–16:00</p>
+  </div>
+</footer>
+
+</body>
+</html>

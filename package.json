@@ -1,0 +1,14 @@
+{
+  "name": "monas-cafe",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mona's Cafe — a small demo site with a deliberate menu pricing bug",
+  "scripts": {
+    "start": "python3 serve.py",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1"
+  }
+}
