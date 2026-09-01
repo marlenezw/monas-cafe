@@ -6,6 +6,8 @@
   "scripts": {
     "agent": "node agent.mjs",
     "agent:dry": "DRY_RUN=1 node agent.mjs",
+    "agent:legacy": "LEGACY=1 node agent.mjs",
+    "agent:legacy:dry": "LEGACY=1 DRY_RUN=1 node agent.mjs",
     "capture": "node capture.js"
   },
   "keywords": [],

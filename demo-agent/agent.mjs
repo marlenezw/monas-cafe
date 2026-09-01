@@ -17,10 +17,15 @@ const run = promisify(execFile);
 const REPO = "marlenezw/monas-cafe";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const EVIDENCE = path.join(ROOT, "demo-agent", "evidence");
-const GH = `${process.env.HOME}/gh_2.99.0-attach-preview_macOS_arm64/bin/gh`;
 
-// --attach is the only thing this demo needs that stable gh lacks.
 const DRY_RUN = process.env.DRY_RUN === "1";
+
+// LEGACY=1 runs this same agent against gh 2.96 — the world before --attach.
+// The agent still does all the work. It just can't share the proof.
+const LEGACY = process.env.LEGACY === "1";
+
+const GH_PREVIEW = `${process.env.HOME}/gh_2.99.0-attach-preview_macOS_arm64/bin/gh`;
+const GH = LEGACY ? "gh" : GH_PREVIEW;
 
 const log = (icon, msg) => console.log(`  ${icon}  ${msg}`);
 
@@ -109,7 +114,9 @@ const openPrTool = defineTool("open_pr_with_evidence", {
       "--attach", `${a.afterScreenshot}#After: prices render correctly`,
     ];
 
-    if (DRY_RUN) {
+    // In legacy mode we always really run it: gh 2.96 rejects --attach during
+    // flag parsing, so nothing is created and the error is genuine.
+    if (DRY_RUN && !LEGACY) {
       log("  ", "DRY_RUN — would run:");
       console.log(`      ${GH} ${args.map((x) => (/[ #]/.test(x) ? `'${x}'` : x)).join(" ")}`);
       return { ok: true, dryRun: true, url: "https://github.com/(dry-run)" };
@@ -120,6 +127,44 @@ const openPrTool = defineTool("open_pr_with_evidence", {
       const url = stdout.trim().split("\n").pop();
       log("  ", url);
       return { ok: true, url };
+    } catch (e) {
+      const error = `${e.stdout || ""}${e.stderr || ""}`.trim();
+      const firstLine = error.split("\n")[0];
+      log("❌", firstLine);
+      return { ok: false, error };
+    }
+  },
+});
+
+/* ── The fallback that was all agents had before --attach ──────────────── */
+
+const openPrTextOnlyTool = defineTool("open_pr_without_evidence", {
+  description:
+    "Open a pull request with a text-only body. Use this only if attaching " +
+    "screenshots is not possible. Screenshots cannot be included.",
+  parameters: z.object({
+    title: z.string().describe("PR title"),
+    body: z.string().describe("PR body in markdown, text only"),
+    branch: z.string().describe("Branch name that holds the fix"),
+  }),
+  handler: async (a) => {
+    log("📝", `open_pr_without_evidence("${a.title}")`);
+    const args = [
+      "pr", "create",
+      "--repo", REPO,
+      "--head", a.branch,
+      "--title", a.title,
+      "--body", a.body,
+    ];
+    if (DRY_RUN) {
+      log("  ", "DRY_RUN — would open a text-only PR");
+      return { ok: true, dryRun: true, url: "https://github.com/(dry-run)" };
+    }
+    try {
+      const { stdout } = await run(GH, args, { cwd: ROOT });
+      const url = stdout.trim().split("\n").pop();
+      log("  ", url);
+      return { ok: true, url, note: "PR opened without visual evidence." };
     } catch (e) {
       return { ok: false, error: `${e.stdout || ""}${e.stderr || ""}`.trim() };
     }
@@ -146,6 +191,11 @@ How you work:
 - Put your change on a new branch and commit it before opening the PR.
 - The PR body should explain the root cause in a sentence or two. Keep it
   short. The screenshots carry the argument.
+- Always try to open the PR with visual evidence attached. If that fails
+  because the installed gh does not support attachments, do not give up on
+  the PR — fall back to opening it without evidence, and say plainly in your
+  final summary what could not be included and where the screenshots are
+  sitting on disk.
 
 The site is served at http://127.0.0.1:4173 and is already running.
 Do not start or stop the server.
@@ -160,7 +210,11 @@ async function main() {
   fs.rmSync(EVIDENCE, { recursive: true, force: true });
 
   console.log("\n\x1b[1m☕ Mona's Cafe QA agent\x1b[0m");
-  console.log(`   repo: ${REPO}${DRY_RUN ? "   \x1b[33m(dry run)\x1b[0m" : ""}\n`);
+  const ghLabel = LEGACY
+    ? "\x1b[31mgh 2.96.0 (no --attach)\x1b[0m"
+    : "\x1b[32mgh 2.99.0 (--attach)\x1b[0m";
+  console.log(`   repo: ${REPO}`);
+  console.log(`   gh:   ${ghLabel}${DRY_RUN ? "   \x1b[33m(dry run)\x1b[0m" : ""}\n`);
 
   const client = new CopilotClient();
   await client.start();
@@ -169,14 +223,18 @@ async function main() {
     model: "claude-sonnet-4.6",
     workingDirectory: ROOT,
     onPermissionRequest: approveAll,
-    tools: [captureMenuTool, runTestsTool, openPrTool],
+    tools: [captureMenuTool, runTestsTool, openPrTool, openPrTextOnlyTool],
     customAgents: [
       {
         name: "cafe-qa",
         displayName: "Cafe QA",
         description: "Finds visual bugs, fixes them, and proves the fix with screenshots.",
         prompt: AGENT_PROMPT,
-        tools: ["bash", "view", "edit", "grep", "glob", "capture_menu", "run_tests", "open_pr_with_evidence"],
+        tools: [
+          "bash", "view", "edit", "grep", "glob",
+          "capture_menu", "run_tests",
+          "open_pr_with_evidence", "open_pr_without_evidence",
+        ],
       },
     ],
     agent: "cafe-qa",
