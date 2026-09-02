@@ -1,6 +1,7 @@
-node_modules/
-test-results/
-playwright-report/
-video/
 *.webm
+evidence/
+node_modules/
+playwright-report/
 remotion/out/
+test-results/
+video/
