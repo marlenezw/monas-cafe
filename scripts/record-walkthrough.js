@@ -13,7 +13,7 @@ window.__cursor = () => {
   const c = document.createElement('div');
   c.id = '__c';
   c.style.cssText = 'position:fixed;top:0;left:0;width:22px;height:22px;z-index:2147483647;pointer-events:none;transition:transform .45s cubic-bezier(.4,0,.2,1);will-change:transform';
-  c.innerHTML = '<svg viewBox="0 0 22 22" width="22" height="22"><path d="M4 2l13 7.5-5.6 1.4L9 17z" fill="#2c211a" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+  c.innerHTML = '<svg viewBox="0 0 22 22" width="22" height="22"><path d="M4 2l13 7.5-5.6 1.4L9 17z" fill="#1f1b2e" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   document.documentElement.appendChild(c);
 };
 window.__move = (x, y) => {
@@ -26,7 +26,7 @@ window.__tap = () => {
   const r = document.createElement('div');
   const m = c.style.transform.match(/translate\\(([-\\d.]+)px,\\s*([-\\d.]+)px\\)/);
   const x = m ? +m[1] : 0, y = m ? +m[2] : 0;
-  r.style.cssText = 'position:fixed;left:' + (x - 18) + 'px;top:' + (y - 18) + 'px;width:56px;height:56px;border-radius:50%;border:2.5px solid #c47a3d;z-index:2147483646;pointer-events:none;opacity:.9;transform:scale(.3);transition:transform .5s ease-out,opacity .5s ease-out';
+  r.style.cssText = 'position:fixed;left:' + (x - 18) + 'px;top:' + (y - 18) + 'px;width:56px;height:56px;border-radius:50%;border:2.5px solid #8957e5;z-index:2147483646;pointer-events:none;opacity:.9;transform:scale(.3);transition:transform .5s ease-out,opacity .5s ease-out';
   document.documentElement.appendChild(r);
   requestAnimationFrame(() => { r.style.transform = 'scale(1)'; r.style.opacity = '0'; });
   setTimeout(() => r.remove(), 600);
