@@ -17,14 +17,14 @@
 :root {
   --cream: #ffffff;
   --paper: #ffffff;
-  --ink: #271a2b;
-  --muted: #756480;
-  --line: #f0e2f4;
-  --coffee: #a21caf;
-  --caramel: #c026d3;
-  --sage: #86198f;
+  --ink: #1f1b2e;
+  --muted: #6e6785;
+  --line: #e9e4f5;
+  --coffee: #6f42c1;
+  --caramel: #8957e5;
+  --sage: #4c3a86;
   --berry: #d1242f;
-  --tint: #fcf2fd;
+  --tint: #f6f3fd;
   --radius: 14px;
   --shadow: none;
 }
@@ -100,7 +100,7 @@ h1 em { font-style: normal; color: var(--caramel); }
 }
 .btn:hover { transform: translateY(-1px); }
 .btn-primary { background: var(--coffee); color: #fff; }
-.btn-primary:hover { background: #8a1795; }
+.btn-primary:hover { background: #5a35a0; }
 .btn-ghost { background: var(--paper); color: var(--ink); border-color: var(--line); }
 .btn-ghost:hover { border-color: var(--caramel); color: var(--coffee); }
 
@@ -108,7 +108,7 @@ h1 em { font-style: normal; color: var(--caramel); }
 .stage { position: relative; display: grid; place-items: center; }
 .stage::before {
   content: ""; position: absolute; width: 80%; aspect-ratio: 1; border-radius: 50%;
-  background: radial-gradient(circle, #fbe4fd 0%, rgba(251, 228, 253, 0) 68%);
+  background: radial-gradient(circle, #efe8fc 0%, rgba(239, 232, 252, 0) 68%);
 }
 .stage img { position: relative; width: auto; max-width: 100%; max-height: 460px; display: block; }
 .badge {
@@ -190,7 +190,7 @@ h1 em { font-style: normal; color: var(--caramel); }
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
 .board-total span { color: var(--muted); font-size: 0.94rem; }
-.board-total em { font-style: normal; color: #a691ac; }
+.board-total em { font-style: normal; color: #9a93ad; }
 .board-total .grand {
   font-family: "Monaspace Neon", ui-monospace, monospace;
   font-size: 1.55rem; color: var(--sage);
