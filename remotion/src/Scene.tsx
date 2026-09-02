@@ -34,7 +34,7 @@ export const Scene: React.FC<{
           left: 0,
           right: 0,
           height: 16,
-          background: `repeating-linear-gradient(90deg, #c47a3d 0 46px, ${THEME.cream} 46px 92px)`
+          background: `repeating-linear-gradient(90deg, #6f42c1 0 46px, #f6f3fd 46px 92px)`
         }}
       />
 
@@ -56,7 +56,7 @@ export const Scene: React.FC<{
                   fontSize: 20,
                   letterSpacing: ".16em",
                   textTransform: "uppercase",
-                  color: "#c47a3d",
+                  color: "#8957e5",
                   marginBottom: 10
                 }}
               >
@@ -68,7 +68,7 @@ export const Scene: React.FC<{
                   fontSize: 52,
                   fontWeight: 800,
                   letterSpacing: "-.03em",
-                  color: "#2c211a"
+                  color: "#1f1b2e"
                 }}
               >
                 {caption}
@@ -81,7 +81,7 @@ export const Scene: React.FC<{
                 height: 168,
                 marginBottom: -8,
                 transform: `translateY(${monaIn}px)`,
-                filter: "drop-shadow(0 16px 22px rgba(60,40,25,.18))"
+                filter: "drop-shadow(0 16px 22px rgba(45,25,80,.16))"
               }}
             />
           </div>

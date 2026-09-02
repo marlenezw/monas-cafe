@@ -8,7 +8,8 @@
     "render:tests": "remotion render PlaywrightRun out/01-playwright-tests.mp4",
     "render:error": "remotion render AttachError out/02-attach-error.mp4",
     "render:fixed": "remotion render AttachFixed out/03-attach-works.mp4",
-    "render:all": "npm run render:tests && npm run render:error && npm run render:fixed"
+    "render:pr": "remotion render AttachPR out/04-attach-pr.mp4",
+    "render:all": "npm run render:tests && npm run render:error && npm run render:fixed && npm run render:pr"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.0",

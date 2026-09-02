@@ -1,18 +1,18 @@
 import React from "react";
-import { useCurrentFrame, interpolate, Easing } from "remotion";
+import { useCurrentFrame, interpolate, Easing, AbsoluteFill } from "remotion";
 
 export const THEME = {
-  bg: "#17130f",
-  chrome: "#221b16",
-  text: "#e9e2d8",
-  muted: "#948578",
+  bg: "#17121f",
+  chrome: "#221a2e",
+  text: "#ece7f2",
+  muted: "#8f849e",
   green: "#4ec26f",
   red: "#ff6a5e",
   yellow: "#e0b341",
   blue: "#6cb6ff",
-  caramel: "#e3a869",
-  cream: "#fdf7ef",
-  line: "#332821"
+  caramel: "#c9a4f5",
+  cream: "#ffffff",
+  line: "#2e2440"
 };
 
 export type Seg = { t: string; c?: string; b?: boolean };
@@ -110,11 +110,12 @@ const Cursor: React.FC<{ frame: number }> = ({ frame }) => (
 
 export const Terminal: React.FC<{
   lines: Line[];
-  title: string;
+  title?: string;
   opts?: Parameters<typeof schedule>[1];
   fontSize?: number;
   width?: number;
-}> = ({ lines, title, opts, fontSize = 26, width = 1620 }) => {
+  full?: boolean;
+}> = ({ lines, title, opts, fontSize = 26, width = 1620, full = false }) => {
   const frame = useCurrentFrame();
   const { items } = schedule(lines, opts);
   const lh = fontSize * 1.55;
@@ -129,51 +130,9 @@ export const Terminal: React.FC<{
   // The last visible line carries the cursor.
   const activeIdx = items.filter((it) => frame >= it.start).length - 1;
 
-  return (
-    <div
-      style={{
-        width,
-        borderRadius: 16,
-        overflow: "hidden",
-        background: THEME.bg,
-        boxShadow: "0 50px 90px -40px rgba(60,40,25,.55), 0 0 0 1px rgba(60,40,25,.10)",
-        fontFamily: "Monaspace Neon, ui-monospace, SFMono-Regular, monospace"
-      }}
-    >
-      {/* title bar */}
-      <div
-        style={{
-          height: 54,
-          background: THEME.chrome,
-          display: "flex",
-          alignItems: "center",
-          padding: "0 20px",
-          borderBottom: `1px solid ${THEME.line}`
-        }}
-      >
-        <div style={{ display: "flex", gap: 9 }}>
-          {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
-            <div key={c} style={{ width: 14, height: 14, borderRadius: "50%", background: c }} />
-          ))}
-        </div>
-        <div
-          style={{
-            flex: 1,
-            textAlign: "center",
-            color: THEME.muted,
-            fontSize: 17,
-            letterSpacing: ".02em",
-            marginLeft: -60
-          }}
-        >
-          {title}
-        </div>
-      </div>
-
-      {/* content */}
-      <div style={{ height: contentHeight + 56, padding: "28px 34px" }}>
-        <div>
-          {items.map((it, i) => {
+  const body = (
+    <div style={{ height: contentHeight }}>
+      {items.map((it, i) => {
             if (frame < it.start) return null;
             const { line } = it;
 
@@ -211,9 +170,65 @@ export const Terminal: React.FC<{
                 {showCursor && <Cursor frame={frame} />}
               </div>
             );
-          })}
+      })}
+    </div>
+  );
+
+  if (full)
+    return (
+      <AbsoluteFill
+        style={{
+          background: THEME.bg,
+          fontFamily: "Monaspace Neon, ui-monospace, SFMono-Regular, monospace",
+          padding: "0 120px",
+          justifyContent: "center"
+        }}
+      >
+        {body}
+      </AbsoluteFill>
+    );
+
+  return (
+    <div
+      style={{
+        width,
+        borderRadius: 16,
+        overflow: "hidden",
+        background: THEME.bg,
+        boxShadow: "0 50px 90px -40px rgba(45,25,80,.45), 0 0 0 1px rgba(45,25,80,.10)",
+        fontFamily: "Monaspace Neon, ui-monospace, SFMono-Regular, monospace"
+      }}
+    >
+      <div
+        style={{
+          height: 54,
+          background: THEME.chrome,
+          display: "flex",
+          alignItems: "center",
+          padding: "0 20px",
+          borderBottom: `1px solid ${THEME.line}`
+        }}
+      >
+        <div style={{ display: "flex", gap: 9 }}>
+          {["#ff5f57", "#febc2e", "#28c840"].map((c) => (
+            <div key={c} style={{ width: 14, height: 14, borderRadius: "50%", background: c }} />
+          ))}
+        </div>
+        <div
+          style={{
+            flex: 1,
+            textAlign: "center",
+            color: THEME.muted,
+            fontSize: 17,
+            letterSpacing: ".02em",
+            marginLeft: -60
+          }}
+        >
+          {title}
         </div>
       </div>
+
+      <div style={{ height: contentHeight + 56, padding: "28px 34px" }}>{body}</div>
     </div>
   );
 };

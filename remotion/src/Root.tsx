@@ -3,6 +3,7 @@ import { Composition, staticFile } from "remotion";
 import { PlaywrightRun, PLAYWRIGHT_LINES } from "./PlaywrightRun";
 import { AttachError, ATTACH_ERROR_LINES } from "./AttachError";
 import { AttachFixed, ATTACH_FIXED_LINES } from "./AttachFixed";
+import { AttachPR, ATTACH_PR_LINES } from "./AttachPR";
 import { schedule } from "./Terminal";
 
 const FPS = 30;
@@ -71,6 +72,20 @@ export const RemotionRoot: React.FC = () => (
       id="AttachFixed"
       component={AttachFixed}
       durationInFrames={frames(ATTACH_FIXED_LINES, {
+        startDelay: 20,
+        cps: 2.2,
+        pauseAfterCmd: 30,
+        outStagger: 12
+      })}
+      fps={FPS}
+      width={1920}
+      height={1080}
+    />
+
+    <Composition
+      id="AttachPR"
+      component={AttachPR}
+      durationInFrames={frames(ATTACH_PR_LINES, {
         startDelay: 20,
         cps: 2.2,
         pauseAfterCmd: 30,
