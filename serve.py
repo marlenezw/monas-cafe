@@ -5,7 +5,7 @@ import re
 import socketserver
 
 PORT = 4173
-ROOT = "/Users/marlenemhangami/monas-cafe"
+ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 class RangeHandler(http.server.SimpleHTTPRequestHandler):

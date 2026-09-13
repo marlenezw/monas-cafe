@@ -26,20 +26,19 @@ const MENU = [
   }
 ];
 
-// `?fixed=1` renders the corrected build — handy for before/after comparisons.
-const isFixed = new URLSearchParams(location.search).has("fixed");
-
 /**
- * Prices arrive from the CMS pre-formatted ("$3.50").
- * The broken build hands that string straight to parseFloat, which stops at the
- * leading "$" and returns NaN. The fixed build strips non-numerics first.
+ * Prices arrive from the CMS pre-formatted ("$3.50"). parseFloat stops at the
+ * leading "$" and returns NaN, so strip everything that isn't a digit or a
+ * decimal point before parsing.
  */
 function toNumber(raw) {
-  return isFixed ? parseFloat(raw.replace(/[^0-9.]/g, "")) : parseFloat(raw);
+  if (typeof raw === "number") return raw;
+  if (typeof raw !== "string") return NaN;
+  return parseFloat(raw.replace(/[^0-9.]/g, ""));
 }
 
 function formatPrice(value) {
-  return "$" + value.toFixed(2);
+  return Number.isFinite(value) ? "$" + value.toFixed(2) : "—";
 }
 
 function render() {
@@ -54,7 +53,7 @@ function render() {
       const broken = Number.isNaN(value);
 
       if (broken) failures++;
-      subtotal += value;
+      else subtotal += value;
       total++;
 
       return `
