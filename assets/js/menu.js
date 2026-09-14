@@ -35,7 +35,7 @@ const isFixed = new URLSearchParams(location.search).has("fixed");
  * leading "$" and returns NaN. The fixed build strips non-numerics first.
  */
 function toNumber(raw) {
-  return isFixed ? parseFloat(raw.replace(/[^0-9.]/g, "")) : parseFloat(raw);
+  return parseFloat(raw.replace(/[^0-9.]/g, ""));
 }
 
 function formatPrice(value) {
