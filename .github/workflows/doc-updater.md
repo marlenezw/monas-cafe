@@ -38,7 +38,10 @@ safe-outputs:
     labels:
       - documentation
       - automation
-    protected-files: fallback-to-issue
+    protected-files:
+      policy: fallback-to-issue
+      exclude:
+        - README.md # this workflow is meant to update the README
     title-prefix: "[docs] "
 source: githubnext/agentics/workflows/doc-updater.md@4bc8419fad05e6b032741cbfd189986700bcf71c
 timeout-minutes: 30
