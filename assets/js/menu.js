@@ -23,11 +23,22 @@ const MENU = [
       { name: "Blame Bagel",              price: "$4.50", desc: "Everything seasoning. We know who did it.", chip: null },
       { name: "Stash Scone",              price: "$3.25", desc: "Saved for later. Still warm.",       chip: null }
     ]
+  },
+  {
+    section: "Tea Bar",
+    items: [
+      { name: "Green Tea Git Tag",  price: "$3.25", desc: "Light, grassy, and easy to release.",       chip: "new" },
+      { name: "Earl Grey Diff",     price: "$3.50", desc: "Bergamot, with every change highlighted.", chip: null }
+    ]
   }
 ];
 
 // `?fixed=1` renders the corrected build — handy for before/after comparisons.
-const isFixed = new URLSearchParams(location.search).has("fixed");
+const params = new URLSearchParams(location.search);
+const isFixed = params.has("fixed");
+
+// `?tax=0.1` overrides the sales tax rate (default 8.75%).
+const TAX_RATE = params.has("tax") ? Number(params.get("tax")) : 0.0875;
 
 /**
  * Prices arrive from the CMS pre-formatted ("$3.50").
@@ -72,7 +83,7 @@ function render() {
   }).join("");
 
   const grand = document.getElementById("grand-total");
-  grand.textContent = formatPrice(subtotal + subtotal * 0.0875);
+  grand.textContent = formatPrice(subtotal + subtotal * TAX_RATE);
   grand.classList.toggle("is-broken", failures > 0);
 
   if (failures > 0) {

@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const OUT = '/Users/marlenemhangami/monas-cafe/video';
-const BASE = 'http://127.0.0.1:4173';
+const BASE = 'http://127.0.0.1:8080';
 const W = 1280, H = 800;
 
 // Synthetic cursor — Playwright's video doesn't capture the real pointer.

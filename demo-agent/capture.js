@@ -4,7 +4,7 @@ const { chromium } = require("playwright");
 const path = require("path");
 const fs = require("fs");
 
-const BASE = process.env.CAFE_URL || "http://127.0.0.1:4173";
+const BASE = process.env.CAFE_URL || "http://127.0.0.1:8080";
 
 async function captureMenu(label, outDir) {
   fs.mkdirSync(outDir, { recursive: true });
