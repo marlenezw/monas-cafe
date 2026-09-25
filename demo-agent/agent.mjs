@@ -197,7 +197,7 @@ How you work:
   final summary what could not be included and where the screenshots are
   sitting on disk.
 
-The site is served at http://127.0.0.1:4173 and is already running.
+The site is served at http://127.0.0.1:8080 and is already running.
 Do not start or stop the server.
 `.trim();
 
