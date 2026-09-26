@@ -14,10 +14,11 @@ Requirements: Python 3 (for the server) and Node.js (only for the tests).
 npm start            # runs: python3 serve.py
 ```
 
-The site is served at **http://127.0.0.1:4173** (`index.html`, `menu.html`).
+The site is served at **http://127.0.0.1:8080** (`index.html`, `menu.html`).
 `serve.py` is a static file server with HTTP Range support so embedded videos can
-be scrubbed. It serves files from the hard-coded `ROOT` path in `serve.py`, so
-update `ROOT` if your checkout lives somewhere else.
+be scrubbed. It serves files from the repo checkout by default; set the
+`CAFE_PORT` and `CAFE_ROOT` environment variables to override the port and the
+served directory, respectively.
 
 ## Tests
 
@@ -37,11 +38,11 @@ these tests fail — that's expected.
 
 | Option | Where | Default | Description |
 | --- | --- | --- | --- |
-| `PORT` | `serve.py` | `4173` | Port the static server listens on (bound to `127.0.0.1`). |
-| `ROOT` | `serve.py` | main checkout path | Directory the server serves files from. |
+| `CAFE_PORT` | `serve.py` env var | `8080` | Port the static server listens on (bound to `127.0.0.1`). |
+| `CAFE_ROOT` | `serve.py` env var | repo checkout directory | Directory the server serves files from. |
 | `?fixed=1` | `menu.html` URL | off | Renders the corrected build (strips `$` before parsing) for before/after comparisons. |
-| Tax rate | `assets/js/menu.js` | `8.75%` | Added to the subtotal to compute the order total. |
-| `MENU` | `assets/js/menu.js` | 3 sections | Menu data: **Espresso Bar**, **Brew Bar** and **From the Bakery**. |
+| `?tax=` | `menu.html` URL | `0.0875` (8.75%) | Overrides the sales tax rate applied to the subtotal, e.g. `?tax=0.1` for 10%. |
+| `MENU` | `assets/js/menu.js` | 4 sections | Menu data: **Espresso Bar**, **Brew Bar**, **From the Bakery** and **Tea Bar**. |
 
 ## Repository layout
 
