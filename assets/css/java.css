@@ -712,11 +712,6 @@ h2 {
 }
 
 @media (max-width: 375px) {
-  .customizer {
-    /* Deliberate demo defect: the sticky bar overlaps the final field. */
-    padding-bottom: 12px;
-  }
-
   .product-hero {
     padding-inline: 20px;
   }
