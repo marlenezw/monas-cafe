@@ -1,48 +1,77 @@
 import { test, expect } from "@playwright/test";
-import fs from "node:fs";
 
-const SHOTS = "test-results/screenshots";
-
-test.beforeAll(() => {
-  fs.mkdirSync(SHOTS, { recursive: true });
-});
-
-test("menu prices render as currency, not NaN", async ({ page }) => {
-  await page.goto("/menu.html");
-  await page.waitForLoadState("networkidle");
-
-  // Capture the board regardless of outcome — this is the artifact we attach.
-  await page.screenshot({ path: `${SHOTS}/menu-prices.png`, fullPage: true });
-
-  const prices = await page.locator(".price").allInnerTexts();
-  const broken = prices.filter((p) => p.includes("NaN"));
-
-  expect(
-    broken,
-    `${broken.length} of ${prices.length} prices failed to parse`
-  ).toHaveLength(0);
-});
-
-test("order total is a valid currency amount", async ({ page }) => {
-  await page.goto("/menu.html");
-  await page.waitForLoadState("networkidle");
-
-  const total = page.locator("#grand-total");
-  await expect(total).toBeVisible();
-
-  await total.screenshot({ path: `${SHOTS}/order-total.png` });
-
-  await expect(total).toHaveText(/^\$\d+\.\d{2}$/);
-});
-
-test("no pricing errors are logged to the console", async ({ page }) => {
-  const errors: string[] = [];
-  page.on("console", (msg) => {
-    if (msg.type() === "error") errors.push(msg.text());
+test.describe("Java mobile ordering", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 780 });
+    await page.goto("/menu.html");
   });
 
-  await page.goto("/menu.html");
-  await page.waitForLoadState("networkidle");
+  test("customizes price and adds the configured drink", async ({ page }) => {
+    await page.locator("[name='size'][value='large']").check();
+    await page.locator("[name='milk'][value='oat']").check();
+    await page.locator("[data-addon]").click();
+    await page.locator("[data-increase]").click();
 
-  expect(errors, errors.join("\n")).toHaveLength(0);
+    await expect(page.locator("[data-total-price]")).toHaveText("$16.00");
+    await expect(page.locator("[data-summary]")).toContainText(
+      "Large · Oat milk · Extra shot"
+    );
+
+    await page.locator("[data-order]").click();
+    await expect(page.locator("[data-toast]")).toHaveClass(/show/);
+    await expect(page.locator("[data-toast-summary]")).toContainText(
+      "2 House Lattes · $16.00"
+    );
+  });
+
+  test("reproduces narrow-phone overlap at the bottom of customization", async ({
+    page
+  }) => {
+    const notes = page.locator(".notes-field");
+    await notes.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+
+    const overlap = await notes.evaluate((field) => {
+      const bar = document.querySelector(".order-bar")!.getBoundingClientRect();
+      const fieldRect = field.getBoundingClientRect();
+      return Math.max(0, fieldRect.bottom - bar.top);
+    });
+
+    expect(overlap).toBeGreaterThan(20);
+  });
+
+  test("demo route frames the mobile app", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/demo.html");
+
+    await expect(page.locator(".phone")).toBeVisible();
+    await expect(page.locator("iframe")).toHaveAttribute(
+      "src",
+      "menu.html?showIssue=1"
+    );
+    await expect(page.locator("[data-issue-marker]")).toContainText(
+      "59px overlap"
+    );
+
+    const app = page.frames().find((frame) =>
+      frame.url().endsWith("/menu.html?showIssue=1")
+    );
+    expect(app).toBeDefined();
+    await expect
+      .poll(() =>
+        app!.evaluate(
+          () =>
+            document.documentElement.scrollHeight -
+            window.innerHeight -
+            window.scrollY
+        )
+      )
+      .toBeLessThan(2);
+    await expect(app!.locator(".notes-field")).toBeVisible();
+    const overlap = await app!.locator(".notes-field").evaluate((field) => {
+      const bar = document.querySelector(".order-bar")!.getBoundingClientRect();
+      return Math.round(field.getBoundingClientRect().bottom - bar.top);
+    });
+    expect(overlap).toBeGreaterThan(20);
+  });
 });

@@ -1,52 +1,49 @@
-# Mona's Cafe
+# Java Coffee Demo
 
-A small static demo website for a GitHub-themed coffee shop. It has a home page
-(`index.html`) and a menu page (`menu.html`) whose prices are rendered by
-`assets/js/menu.js`. The menu ships with a **deliberate pricing bug** — prices are
-parsed with `parseFloat("$3.50")`, which returns `NaN` — so the site can be used to
-demo automated bug-finding and fixing.
+A polished mobile-first coffee customization flow built as a static HTML, CSS,
+and JavaScript app. The narrow-phone baseline intentionally reproduces a layout
+defect: at viewport widths of 375px or less, the final customization field is
+obscured by the sticky **Add to order** bar.
 
-## Running the site
+## Preview
 
-Requirements: Python 3 (for the server) and Node.js (only for the tests).
+Run the included static server:
 
 ```bash
-npm start            # runs: python3 serve.py
+npm start
 ```
 
-The site is served at **http://127.0.0.1:4173** (`index.html`, `menu.html`).
-`serve.py` is a static file server with HTTP Range support so embedded videos can
-be scrubbed. It serves files from the hard-coded `ROOT` path in `serve.py`, so
-update `ROOT` if your checkout lives somewhere else.
+Open:
+
+- App: <http://127.0.0.1:8080/menu.html>
+- Desktop phone frame: <http://127.0.0.1:8080/demo.html>
+
+## Intentional issue
+
+Open `menu.html` at a 360-375px phone width and scroll to the bottom. The
+special instructions field continues behind the sticky order bar. The framed
+demo opens directly at this state and labels the 59px collision outside the
+phone. The defect is kept in the `@media (max-width: 375px)` rule in
+`assets/css/java.css`; do not remove it from this baseline branch.
+
+The customer-submitted reproduction is stored at:
+
+`assets/img/customer-narrow-phone-order-bar-overlap.png`
 
 ## Tests
 
 ```bash
 npm install
-npx playwright install chromium
-npm test             # playwright test (headless)
-npm run test:headed  # same, with a visible browser
+npm test
 ```
 
-Tests live in `tests/menu.spec.ts` and check that menu prices and the order total
-render as currency (not `NaN`) and that nothing is logged to the console. Playwright
-starts `serve.py` automatically (see `playwright.config.ts`). With the bug present,
-these tests fail — that's expected.
-
-## Configuration and options
-
-| Option | Where | Default | Description |
-| --- | --- | --- | --- |
-| `PORT` | `serve.py` | `4173` | Port the static server listens on (bound to `127.0.0.1`). |
-| `ROOT` | `serve.py` | main checkout path | Directory the server serves files from. |
-| `?fixed=1` | `menu.html` URL | off | Renders the corrected build (strips `$` before parsing) for before/after comparisons. |
-| Tax rate | `assets/js/menu.js` | `8.75%` | Added to the subtotal to compute the order total. |
-| `MENU` | `assets/js/menu.js` | 3 sections | Menu data: **Espresso Bar**, **Brew Bar** and **From the Bakery**. |
+The Playwright tests cover dynamic pricing, quantity and add-on interactions,
+the intended narrow-phone overlap, and the desktop demo frame.
 
 ## Repository layout
 
-- `index.html`, `menu.html`, `assets/` — the website (CSS, fonts, images, JS).
-- `tests/` — Playwright tests; `playwright.config.ts` — test config.
-- `clips/`, `remotion/`, `scripts/`, `demo-agent/` — demo recordings and the tools
-  used to produce them.
-- `.github/skills/monitor_and_fix_bugs/` — an agent skill that sweeps the site for bugs.
+- `menu.html` — interactive Java coffee customization app.
+- `demo.html` — clean desktop canvas with a realistic phone frame.
+- `assets/css/java.css`, `assets/js/java.js` — Java app styles and behavior.
+- `assets/img/customer-narrow-phone-order-bar-overlap.png` — reproduced issue.
+- `tests/menu.spec.ts` — mobile interaction and baseline layout checks.

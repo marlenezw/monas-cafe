@@ -1,67 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Menu — Mona's Cafe</title>
-<link rel="icon" href="assets/img/mona.png">
-<link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfaf7">
+  <title>Customize Java | Java Coffee</title>
+  <link rel="stylesheet" href="assets/css/java.css">
 </head>
 <body>
+  <main class="app-shell">
+    <header class="app-header">
+      <button class="icon-button" type="button" aria-label="Go back" data-back>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <a class="wordmark" href="menu.html" aria-label="Java Coffee home">
+        <span class="bean-mark" aria-hidden="true"></span>
+        <span>java</span>
+      </a>
+      <button class="icon-button" type="button" aria-label="Save Java to favorites" aria-pressed="false" data-favorite>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg>
+      </button>
+    </header>
 
-<div class="awning"></div>
-
-<header>
-  <div class="wrap nav">
-    <a class="brand" href="index.html">
-      <span class="brand-mark">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-      </span>
-      <b>Mona's <span>Cafe</span></b>
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="menu.html" aria-current="page">Menu</a></li>
-      <li><a href="index.html#visit">Visit</a></li>
-    </ul>
-  </div>
-</header>
-
-<main class="wrap">
-  <section class="section" style="padding-top:44px">
-
-    <div class="banner" id="error-banner">
-      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
-      <div>
-        <strong>We couldn't load prices for this menu.</strong>
-        <p>Something went wrong formatting item prices. Please refresh, or ask at the counter. <code>MenuPriceError</code></p>
+    <div class="product-hero">
+      <div class="hero-copy">
+        <span class="eyebrow">House favorite</span>
+        <h1>Your daily,<br>made yours.</h1>
+        <p>Our signature espresso with silky steamed milk and a soft, caramel finish.</p>
+      </div>
+      <div class="cup-art" aria-label="A warm latte in a blue Java cup" role="img">
+        <span class="steam steam-one"></span>
+        <span class="steam steam-two"></span>
+        <div class="latte">
+          <div class="latte-foam"><span></span></div>
+        </div>
+        <div class="saucer"></div>
+        <div class="cup-brand">java</div>
+      </div>
+      <div class="product-meta">
+        <div>
+          <span class="product-name">The House Latte</span>
+          <span class="product-note">Espresso · milk · 240 cal</span>
+        </div>
+        <strong>$4.80</strong>
       </div>
     </div>
 
-    <div class="board">
-      <div class="board-head">
-        <h2>Today's Menu</h2>
-        <p>Roasted out back · Baked this morning</p>
-      </div>
+    <form class="customizer" data-customizer>
+      <section class="option-group" aria-labelledby="size-title">
+        <div class="group-heading">
+          <div>
+            <span class="step">01</span>
+            <h2 id="size-title">Choose a size</h2>
+          </div>
+          <span class="required">Required</span>
+        </div>
+        <div class="choice-grid size-grid">
+          <label class="choice">
+            <input type="radio" name="size" value="small" data-label="Small" data-price="0">
+            <span class="choice-inner"><b>Small</b><small>8 oz</small></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="size" value="regular" data-label="Regular" data-price="0.8" checked>
+            <span class="choice-inner"><b>Regular</b><small>12 oz</small><em>+$0.80</em></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="size" value="large" data-label="Large" data-price="1.4">
+            <span class="choice-inner"><b>Large</b><small>16 oz</small><em>+$1.40</em></span>
+          </label>
+        </div>
+      </section>
 
-      <div id="board-sections"></div>
+      <section class="option-group" aria-labelledby="milk-title">
+        <div class="group-heading">
+          <div>
+            <span class="step">02</span>
+            <h2 id="milk-title">Pick your milk</h2>
+          </div>
+        </div>
+        <div class="choice-list">
+          <label class="radio-row">
+            <span><b>Whole milk</b><small>Rich and familiar</small></span>
+            <input type="radio" name="milk" value="whole" data-label="Whole milk" data-price="0" checked>
+          </label>
+          <label class="radio-row">
+            <span><b>Oat milk</b><small>Soft, naturally sweet</small></span>
+            <span class="radio-side"><em>+$0.70</em><input type="radio" name="milk" value="oat" data-label="Oat milk" data-price="0.7"></span>
+          </label>
+          <label class="radio-row">
+            <span><b>Almond milk</b><small>Light and nutty</small></span>
+            <span class="radio-side"><em>+$0.70</em><input type="radio" name="milk" value="almond" data-label="Almond milk" data-price="0.7"></span>
+          </label>
+        </div>
+      </section>
 
-      <div class="board-total">
-        <span>Order total <em>(incl. 8.75% tax)</em></span>
-        <span class="grand" id="grand-total">$0.00</span>
+      <section class="option-group" aria-labelledby="finish-title">
+        <div class="group-heading">
+          <div>
+            <span class="step">03</span>
+            <h2 id="finish-title">Make it personal</h2>
+          </div>
+          <span class="optional">Optional</span>
+        </div>
+        <button class="add-on" type="button" data-addon data-label="Extra shot" data-price="1.1" aria-pressed="false">
+          <span><b>Extra espresso</b><small>A little more lift</small></span>
+          <span class="addon-price">+$1.10 <i>+</i></span>
+        </button>
+        <label class="notes-field">
+          <span>Special instructions</span>
+          <textarea name="notes" rows="2" maxlength="120" placeholder="Anything else we should know?"></textarea>
+          <small><span data-char-count>0</span>/120</small>
+        </label>
+      </section>
+    </form>
+
+    <aside class="order-bar" aria-label="Add customized drink to order">
+      <div class="order-summary">
+        <span data-summary>Regular · Whole milk</span>
+        <strong data-total-price>$5.60</strong>
       </div>
+      <div class="order-actions">
+        <div class="quantity" aria-label="Quantity">
+          <button type="button" aria-label="Decrease quantity" data-decrease>−</button>
+          <output data-quantity>1</output>
+          <button type="button" aria-label="Increase quantity" data-increase>+</button>
+        </div>
+        <button class="order-button" type="button" data-order>
+          Add to order
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14 0m-5-5 5 5-5 5"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <div class="toast" role="status" aria-live="polite" data-toast>
+      <span class="toast-check">✓</span>
+      <span><b>Added to your order</b><small data-toast-summary>1 House Latte</small></span>
     </div>
-
-  </section>
-</main>
-
-<footer>
-  <div class="wrap foot">
-    <p>© 2026 Mona's Cafe · 87 Octocat Lane</p>
-    <p class="hours">MON–FRI 7:00–18:00 · SAT–SUN 8:00–16:00</p>
-  </div>
-</footer>
-
-<script src="assets/js/menu.js"></script>
+  </main>
+  <script src="assets/js/java.js"></script>
 </body>
 </html>

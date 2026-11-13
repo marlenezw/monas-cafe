@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Java Mobile Demo</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172234;
+      --muted: #7b8493;
+      --blue: #2869e8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255,255,255,.92), transparent 23%),
+        radial-gradient(circle at 84% 74%, rgba(205,218,241,.75), transparent 24%),
+        #edf1f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .canvas {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(360px, 430px) minmax(180px, .8fr);
+      align-items: center;
+      gap: 50px;
+      max-width: 1280px;
+      margin: auto;
+      padding: 42px 70px;
+    }
+
+    .intro {
+      max-width: 320px;
+    }
+
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 22px;
+      height: 3px;
+      border-radius: 3px;
+      background: var(--blue);
+    }
+
+    h1 {
+      margin: 14px 0 13px;
+      font-size: clamp(38px, 4vw, 60px);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .phone-stage {
+      position: relative;
+      justify-self: center;
+    }
+
+    .issue-marker {
+      position: absolute;
+      z-index: 5;
+      right: -126px;
+      bottom: 82px;
+      width: 126px;
+      height: 112px;
+      color: #cc2b35;
+      border-top: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      border-radius: 0 8px 8px 0;
+      pointer-events: none;
+    }
+
+    .issue-marker::before {
+      content: "";
+      position: absolute;
+      left: -24px;
+      top: 50%;
+      width: 24px;
+      border-top: 2px solid currentColor;
+    }
+
+    .issue-marker span {
+      position: absolute;
+      top: 50%;
+      left: 17px;
+      display: grid;
+      gap: 3px;
+      transform: translateY(-50%);
+    }
+
+    .issue-marker b {
+      font-size: 12px;
+      line-height: 1.15;
+      letter-spacing: -.01em;
+    }
+
+    .issue-marker small {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .phone-stage::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 13% -35% -7%;
+      border-radius: 50%;
+      background: rgba(61, 91, 144, .1);
+      filter: blur(40px);
+    }
+
+    .phone {
+      width: 375px;
+      height: min(812px, calc(100vh - 48px));
+      position: relative;
+      overflow: hidden;
+      border: 10px solid #19202b;
+      border-radius: 48px;
+      background: #19202b;
+      box-shadow: 0 38px 80px rgba(23, 34, 52, .25), inset 0 0 0 1px #515967;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      z-index: 3;
+      top: 8px;
+      left: 50%;
+      width: 96px;
+      height: 26px;
+      border-radius: 20px;
+      background: #121821;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+      background: #fbfaf7;
+    }
+
+    .note {
+      max-width: 220px;
+      justify-self: start;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: 18px;
+      background: rgba(255,255,255,.58);
+      box-shadow: 0 20px 50px rgba(35,54,84,.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .note span {
+      display: block;
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .note p {
+      margin: 8px 0 0;
+      color: #687383;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .note strong {
+      color: #cc2b35;
+    }
+
+    @media (max-width: 960px) {
+      .canvas {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        padding: 18px;
+      }
+
+      .intro, .note { display: none; }
+
+      .phone {
+        height: calc(100vh - 36px);
+      }
+
+      .issue-marker {
+        right: -2px;
+        bottom: 63px;
+        width: 103px;
+        height: 105px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, .92);
+        box-shadow: 0 10px 24px rgba(85, 25, 28, .12);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="canvas">
+    <section class="intro">
+      <span class="kicker">Mobile experience</span>
+      <h1>Coffee,<br>your way.</h1>
+      <p>A focused customization flow for Java customers, shown at the narrow-phone size where real checkout feedback is being reproduced.</p>
+    </section>
+    <div class="phone-stage">
+      <div class="phone">
+        <iframe src="menu.html?showIssue=1" title="Java coffee ordering demo"></iframe>
+      </div>
+      <div class="issue-marker" data-issue-marker>
+        <span><b>59px overlap</b><small>order bar collision</small></span>
+      </div>
+    </div>
+    <aside class="note">
+      <span>Visible defect</span>
+      <p><strong>The special instructions field is trapped beneath the sticky Add to order bar.</strong> The 59px collision is reproduced in the loaded phone state.</p>
+    </aside>
+  </main>
+</body>
+</html>
