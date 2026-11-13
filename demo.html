@@ -19,10 +19,7 @@
       margin: 0;
       overflow: hidden;
       color: var(--ink);
-      background:
-        radial-gradient(circle at 18% 22%, rgba(255,255,255,.92), transparent 23%),
-        radial-gradient(circle at 84% 74%, rgba(205,218,241,.75), transparent 24%),
-        #edf1f5;
+      background: linear-gradient(135deg, #f8f9fb 0%, #edf1f5 64%, #e7ecf2 100%);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
@@ -79,14 +76,14 @@
       justify-self: center;
     }
 
-    .issue-marker {
+    .status-marker {
       position: absolute;
       z-index: 5;
       right: -126px;
       bottom: 82px;
       width: 126px;
       height: 112px;
-      color: #cc2b35;
+      color: #18794e;
       border-top: 2px solid currentColor;
       border-right: 2px solid currentColor;
       border-bottom: 2px solid currentColor;
@@ -94,7 +91,7 @@
       pointer-events: none;
     }
 
-    .issue-marker::before {
+    .status-marker::before {
       content: "";
       position: absolute;
       left: -24px;
@@ -103,7 +100,7 @@
       border-top: 2px solid currentColor;
     }
 
-    .issue-marker span {
+    .status-marker span {
       position: absolute;
       top: 50%;
       left: 17px;
@@ -112,13 +109,13 @@
       transform: translateY(-50%);
     }
 
-    .issue-marker b {
+    .status-marker b {
       font-size: 12px;
       line-height: 1.15;
       letter-spacing: -.01em;
     }
 
-    .issue-marker small {
+    .status-marker small {
       font-size: 9px;
       font-weight: 700;
       letter-spacing: .08em;
@@ -131,7 +128,7 @@
       z-index: -1;
       inset: 13% -35% -7%;
       border-radius: 50%;
-      background: rgba(61, 91, 144, .1);
+      background: rgba(23, 34, 52, .1);
       filter: blur(40px);
     }
 
@@ -175,7 +172,7 @@
       border: 1px solid rgba(255,255,255,.75);
       border-radius: 18px;
       background: rgba(255,255,255,.58);
-      box-shadow: 0 20px 50px rgba(35,54,84,.08);
+      box-shadow: 0 20px 50px rgba(23,34,52,.08);
       backdrop-filter: blur(14px);
     }
 
@@ -195,8 +192,26 @@
       line-height: 1.6;
     }
 
+    .viewport-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .viewport-list i {
+      padding: 4px 7px;
+      border: 1px solid #b8ddc9;
+      border-radius: 999px;
+      color: #18794e;
+      background: #f1faf5;
+      font-size: 9px;
+      font-style: normal;
+      font-weight: 750;
+    }
+
     .note strong {
-      color: #cc2b35;
+      color: #18794e;
     }
 
     @media (max-width: 960px) {
@@ -212,14 +227,14 @@
         height: calc(100vh - 36px);
       }
 
-      .issue-marker {
+      .status-marker {
         right: -2px;
         bottom: 63px;
         width: 103px;
         height: 105px;
         border-radius: 8px;
         background: rgba(255, 255, 255, .92);
-        box-shadow: 0 10px 24px rgba(85, 25, 28, .12);
+        box-shadow: 0 10px 24px rgba(23, 34, 52, .12);
       }
     }
   </style>
@@ -229,19 +244,23 @@
     <section class="intro">
       <span class="kicker">Mobile experience</span>
       <h1>Coffee,<br>your way.</h1>
-      <p>A focused customization flow for Java customers, shown at the narrow-phone size where real checkout feedback is being reproduced.</p>
+      <p>A focused customization flow for Java customers, shown at the narrow-phone size that originally exposed the order-bar collision.</p>
     </section>
     <div class="phone-stage">
       <div class="phone">
-        <iframe src="menu.html?showIssue=1" title="Java coffee ordering demo"></iframe>
+        <iframe src="menu.html?showFixed=1" title="Java coffee ordering demo showing the repaired mobile layout"></iframe>
       </div>
-      <div class="issue-marker" data-issue-marker>
-        <span><b>59px overlap</b><small>order bar collision</small></span>
+      <div class="status-marker" data-fixed-marker>
+        <span><b>0px overlap</b><small>instructions clear</small></span>
       </div>
     </div>
     <aside class="note">
-      <span>Visible defect</span>
-      <p><strong>The special instructions field is trapped beneath the sticky Add to order bar.</strong> The 59px collision is reproduced in the loaded phone state.</p>
+      <span>Mobile layout verified</span>
+      <p><strong>The special instructions field stays fully above the sticky Add to order bar.</strong> The repaired state opens scrolled to the handoff point.</p>
+      <div class="viewport-list" aria-label="Verified viewport widths">
+        <i>360px narrow</i>
+        <i>390px standard</i>
+      </div>
     </aside>
   </main>
 </body>

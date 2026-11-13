@@ -63,21 +63,21 @@ test.describe("Java mobile ordering", () => {
     ).toBe(expectedOverlapPx);
   });
 
-  test("demo route frames the mobile app", async ({ page }) => {
+  test("demo route frames the mobile app", async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/demo.html");
 
     await expect(page.locator(".phone")).toBeVisible();
     await expect(page.locator("iframe")).toHaveAttribute(
       "src",
-      "menu.html?showIssue=1"
+      "menu.html?showFixed=1"
     );
-    await expect(page.locator("[data-issue-marker]")).toContainText(
-      "59px overlap"
+    await expect(page.locator("[data-fixed-marker]")).toContainText(
+      "0px overlap"
     );
 
     const app = page.frames().find((frame) =>
-      frame.url().endsWith("/menu.html?showIssue=1")
+      frame.url().endsWith("/menu.html?showFixed=1")
     );
     expect(app).toBeDefined();
     await expect
@@ -98,5 +98,37 @@ test.describe("Java mobile ordering", () => {
       );
     });
     expect(overlap).toBe(0);
+    await page.screenshot({
+      path: testInfo.outputPath("fixed-mobile-demo.png"),
+      fullPage: true
+    });
   });
+
+  for (const viewport of [
+    { name: "narrow-phone", width: 360, height: 780 },
+    { name: "standard-phone", width: 390, height: 844 }
+  ]) {
+    test(`visually verifies the repaired ${viewport.name} layout`, async ({
+      page
+    }, testInfo) => {
+      await page.setViewportSize(viewport);
+      await page.goto("/menu.html");
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+
+      const overlap = await page.locator(".notes-field").evaluate((field) => {
+        const bar = document.querySelector(".order-bar")!.getBoundingClientRect();
+        return Math.round(
+          Math.max(0, field.getBoundingClientRect().bottom - bar.top)
+        );
+      });
+
+      expect(overlap).toBe(0);
+      await expect(page.locator(".notes-field")).toBeVisible();
+      await expect(page.locator(".order-bar")).toBeVisible();
+      await page.screenshot({
+        path: testInfo.outputPath(`${viewport.name}.png`),
+        fullPage: false
+      });
+    });
+  }
 });

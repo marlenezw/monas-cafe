@@ -106,13 +106,13 @@ document.querySelector("[data-order]").addEventListener("click", () => {
 renderOrder();
 
 const demoParams = new URLSearchParams(window.location.search);
-if (demoParams.has("showIssue")) {
-  const revealIssue = () => {
+if (demoParams.has("showFixed")) {
+  const revealFixedState = () => {
     requestAnimationFrame(() => {
       window.scrollTo(0, document.documentElement.scrollHeight);
     });
   };
 
-  revealIssue();
-  window.addEventListener("load", revealIssue, { once: true });
+  revealFixedState();
+  window.addEventListener("load", revealFixedState, { once: true });
 }

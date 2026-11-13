@@ -2,7 +2,7 @@
   "name": "monas-cafe",
   "version": "1.0.0",
   "private": true,
-  "description": "Java coffee mobile ordering demo with a deliberate narrow-phone layout issue",
+  "description": "Java coffee mobile ordering demo with verified narrow-phone layout behavior",
   "scripts": {
     "start": "python3 serve.py",
     "test": "playwright test",
