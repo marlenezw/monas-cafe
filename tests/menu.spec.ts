@@ -24,7 +24,7 @@ test.describe("Java mobile ordering", () => {
     );
   });
 
-  test("reproduces narrow-phone overlap at the bottom of customization", async ({
+  test("keeps the instructions field and counter clear of the order bar", async ({
     page
   }) => {
     const notes = page.locator(".notes-field");
@@ -37,7 +37,7 @@ test.describe("Java mobile ordering", () => {
       return Math.max(0, fieldRect.bottom - bar.top);
     });
 
-    expect(overlap).toBeGreaterThan(20);
+    expect(overlap).toBe(0);
   });
 
   test("keeps Special instructions clear of the order bar (PR 1 baseline: 59px overlap)", async ({
@@ -58,9 +58,8 @@ test.describe("Java mobile ordering", () => {
     expect(
       overlap,
       `The Special instructions textarea must leave ${expectedOverlapPx}px ` +
-        `overlap with the fixed Add to order bar. PR 1 documents the current ` +
-        `${documentedBaselineOverlapPx}px baseline overlap; this regression ` +
-        `guard is expected to fail until PR 2 fixes the layout.`
+        `overlap with the fixed Add to order bar. PR 1 documents the prior ` +
+        `${documentedBaselineOverlapPx}px baseline overlap.`
     ).toBe(expectedOverlapPx);
   });
 
@@ -94,8 +93,10 @@ test.describe("Java mobile ordering", () => {
     await expect(app!.locator(".notes-field")).toBeVisible();
     const overlap = await app!.locator(".notes-field").evaluate((field) => {
       const bar = document.querySelector(".order-bar")!.getBoundingClientRect();
-      return Math.round(field.getBoundingClientRect().bottom - bar.top);
+      return Math.round(
+        Math.max(0, field.getBoundingClientRect().bottom - bar.top)
+      );
     });
-    expect(overlap).toBeGreaterThan(20);
+    expect(overlap).toBe(0);
   });
 });
