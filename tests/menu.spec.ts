@@ -40,6 +40,30 @@ test.describe("Java mobile ordering", () => {
     expect(overlap).toBeGreaterThan(20);
   });
 
+  test("keeps Special instructions clear of the order bar (PR 1 baseline: 59px overlap)", async ({
+    page
+  }) => {
+    const instructions = page.locator("[name='notes']");
+    await instructions.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+
+    const overlap = await instructions.evaluate((textarea) => {
+      const bar = document.querySelector(".order-bar")!.getBoundingClientRect();
+      const textareaRect = textarea.getBoundingClientRect();
+      return Math.round(Math.max(0, textareaRect.bottom - bar.top));
+    });
+    const expectedOverlapPx = 0;
+    const documentedBaselineOverlapPx = 59;
+
+    expect(
+      overlap,
+      `The Special instructions textarea must leave ${expectedOverlapPx}px ` +
+        `overlap with the fixed Add to order bar. PR 1 documents the current ` +
+        `${documentedBaselineOverlapPx}px baseline overlap; this regression ` +
+        `guard is expected to fail until PR 2 fixes the layout.`
+    ).toBe(expectedOverlapPx);
+  });
+
   test("demo route frames the mobile app", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto("/demo.html");
